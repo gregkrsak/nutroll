@@ -40,6 +40,8 @@
 
 # Required for using PRAW
 import praw
+# Required for using command line parameters
+import sys
 
 
 # Internally sets the version of the nutroll application
@@ -51,6 +53,10 @@ def main(username):
     This is the main code block of the nutroll program.    
     :return: None
     """
+    # Perform some due dilligence that a username was provided
+    if not username:
+        usage()
+        return
     # Establish a connection to Reddit
     reddit = connection_on_behalf_of(username)
     # Get the top posts on r/TheBrewery for this past week
@@ -94,14 +100,14 @@ def usage():
     Displays usage information.    
     :return: None
     """
-    print('nutroll, an example of PRAW (https://github.com/praw-dev/praw)')
+    print('nutroll, a demonstration of the PRAW library (https://github.com/praw-dev/praw)')
     print('Copyright (c) 2017 Greg M. Krsak (greg@scrappypunk.com)')
     print('Provided under the MIT License: http://opensource.org/licenses/MIT')
     print()
-    print('Usage: nutroll <username> <password>')
+    print('Usage: nutroll <username>')
     print()
-    print('Where <username> and <password> are your Reddit user credentials.')
-    print('Please file bugs via https://github.com/gregkrsak/nutroll/issues')
+    print('Where <username> is your Reddit username.')
+    print('Please file bugs here: https://github.com/gregkrsak/nutroll/issues')
     print()
     print('USE RESTRICTED BY REDDIT API RULES: https://github.com/reddit/reddit/wiki/API')
 
