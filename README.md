@@ -8,9 +8,9 @@ What you'll need to to start
 
 1. Download and install [Python], if you haven't already.
 
-2. Install the [PRAW] library. You may be able to do this with the administrator command ```pip install praw```.
+2. Install the [PRAW] library (You may be able to do this with the administrator command ```pip install praw```).
 
-3. [Create a "script" app on Reddit]. The "redirect uri" field can be ```http://localhost```.
+3. [Create a "script" app on Reddit] (The "redirect uri" field can be ```http://localhost```).
 
 4. Modify the ```nutroll``` file to include your Reddit app credentials:
 ```python
@@ -60,9 +60,20 @@ Additional resources
 * http://en.wikipedia.org/wiki/Git_(software)
 
 
+About
+-----
+
+nutroll was developed by [Greg M. Krsak] using [PyCharm] Community 2017.1 on [Linux Mint] 18.1.
+Please submit bugs to [the issues page] and feel free to contribute pull requests.
+
+
     [PRAW]: https://github.com/praw-dev/praw
     [Python]: https://www.python.org/
     [Create a "script" app on Reddit]: https://www.reddit.com/prefs/apps
     [How do I use Git?]: http://git-scm.com/documentation
     [Download GitHub Desktop for Windows or Mac]: https://desktop.github.com/
     [Download Git for Linux]: http://git-scm.com/download/linux
+    [Greg M. Krsak]: https://github.com/gregkrsak
+    [PyCharm]: https://www.jetbrains.com/pycharm/
+    [Linux Mint]: https://linuxmint.com/
+    [the issues page]: https://github.com/gregkrsak/nutroll/issues
