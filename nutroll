@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 #
 # nutroll
+# https://github.com/gregkrsak/nutroll
 #
 # A simple example of the Python Reddit API Wrapper (PRAW) via OAuth2.
 #
@@ -77,13 +78,14 @@ def main(username):
 
 def connection_on_behalf_of(username):
     """
-    Establishes a PRAW connection.    
+    Establishes a PRAW connection.
+    To obtain your own cliend_id and client_secret, visit: https://www.reddit.com/prefs/apps
     :return: Reddit
     """
     return praw.Reddit(
         client_id='mHJAei1MCbztxw',
         client_secret='G74uVCX9K5MnyBcNhDFwpwqVZtY',
-        user_agent="python:nutroll:v{0} (used by {1})".format(__version, username),
+        user_agent="python:nutroll:v{0} https://github.com/gregkrsak/nutroll or a fork (used by {1})".format(__version, username),
     )
 
 
