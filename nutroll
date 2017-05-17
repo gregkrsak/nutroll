@@ -7,7 +7,10 @@
 #
 # Requires:
 #
-#   praw (Try the command "pip install praw"):
+#   Python 3
+#   https://www.python.org/
+#
+#   praw (Try the command "pip install praw")
 #   https://github.com/praw-dev/praw
 #
 #   A registered OAuth2 "personal use script" application on Reddit
@@ -69,21 +72,27 @@ def main(username):
     print("Scanning for nut rolls (this may take several seconds)...")
     # Read through each post to determine if there are any discussions of nut rolls
     at_least_one_nutroll_found = False
-    for submission_id in top_thebrewery_posts:
-        # Build a PRAW Submission object using the submission_id
-        submission = reddit.submission(id=submission_id)
-        # Build a full URL for the associated post, as well
-        full_post_url = "https://www.reddit.com/comments/{0}".format(submission_id)
-        # Get rid of the "load more comments", etc. links
-        submission.comments.replace_more(limit=0)
-        # Scan the comments for "nut roll" or "nutroll"...
-        for top_level_comment in submission.comments:
-            if nutroll_found_in(top_level_comment.body):
-                print("Nut roll detected: {0}".format(full_post_url))
-                at_least_one_nutroll_found = True
-    # If there were no nut roll discussions, display a simple announcement
-    if not at_least_one_nutroll_found:
-        print('No nut rolls this week.')
+    try:
+        for submission_id in top_thebrewery_posts:
+            # Build a PRAW Submission object using the submission_id
+            submission = reddit.submission(id=submission_id)
+            # Build a full URL for the associated post, as well
+            full_post_url = "https://www.reddit.com/comments/{0}".format(submission_id)
+            # Get rid of the "load more comments", etc. links
+            submission.comments.replace_more(limit=0)
+            # Scan the comments for "nut roll" or "nutroll"...
+            for top_level_comment in submission.comments:
+                if nutroll_found_in(top_level_comment.body):
+                    print("Nut roll detected: {0}".format(full_post_url))
+                    at_least_one_nutroll_found = True
+        # If there were no nut roll discussions, display a simple announcement
+        if not at_least_one_nutroll_found:
+            print('No nut rolls this week.')
+    except:
+        # Did something break while trying to connect to Reddit?
+        print("Unable to reach Reddit. Did you setup your credentials properly?")
+    # Exit
+    return
 
 
 def connection_on_behalf_of(username):
