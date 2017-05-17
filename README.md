@@ -6,13 +6,13 @@ This is a sample Python-language application intended to demonstrate connecting 
 What you'll need to to start
 ----------------------------
 
-1. Download and install [Python], if you haven't already.
+* Download and install [Python], if you haven't already.
 
-2. Install the [PRAW] library (You may be able to do this with the administrator command ```pip install praw```).
+* Install the [PRAW] library (You may be able to do this with the administrator command ```pip install praw```).
 
-3. [Create a "script" app on Reddit] (The "redirect uri" field can be ```http://localhost```).
+* [Create a "script" app on Reddit] (The "redirect uri" field can be ```http://localhost```).
 
-4. Modify the ```nutroll``` file to include your Reddit app credentials:
+* Modify the ```nutroll``` file to include your Reddit app credentials:
 ```python
 return praw.Reddit(
   client_id='mHJAei1MCbztxw',
@@ -26,21 +26,21 @@ Where the ```client_id``` and ```client_secret``` are obtained from your Reddit 
 Example of running the ```nutroll``` application:
 ----------------------------------------------------
 
-Success:
-```bash
+* Success:
+```
 $ ./nutroll your_reddit_username
 Scanning for nut rolls (this may take several seconds)...
 Nut roll detected: https://www.reddit.com/comments/6alu1h
 ```
-Failure:
-```bash
+* Failure:
+```
 $ ./nutroll your_reddit_username
 Scanning for nut rolls (this may take several seconds)...
 No nut rolls this week.
 
 ```
-PEBKAC:
-```bash
+* PEBKAC:
+```
 $ ./nutroll your_reddit_username
 Scanning for nut rolls (this may take several seconds)...
 Unable to reach Reddit. Did you setup your credentials properly?
@@ -64,16 +64,17 @@ About
 -----
 
 nutroll was developed by [Greg M. Krsak] using [PyCharm] Community 2017.1 on [Linux Mint] 18.1.
+
 Please submit bugs to [the issues page] and feel free to contribute pull requests.
 
+  [PRAW]: https://github.com/praw-dev/praw
+  [Python]: https://www.python.org/
+  [Create a "script" app on Reddit]: https://www.reddit.com/prefs/apps
+  [How do I use Git?]: http://git-scm.com/documentation
+  [Download GitHub Desktop for Windows or Mac]: https://desktop.github.com/
+  [Download Git for Linux]: http://git-scm.com/download/linux
+  [Greg M. Krsak]: https://github.com/gregkrsak
+  [PyCharm]: https://www.jetbrains.com/pycharm/
+  [Linux Mint]: https://linuxmint.com/
+  [the issues page]: https://github.com/gregkrsak/nutroll/issues
 
-    [PRAW]: https://github.com/praw-dev/praw
-    [Python]: https://www.python.org/
-    [Create a "script" app on Reddit]: https://www.reddit.com/prefs/apps
-    [How do I use Git?]: http://git-scm.com/documentation
-    [Download GitHub Desktop for Windows or Mac]: https://desktop.github.com/
-    [Download Git for Linux]: http://git-scm.com/download/linux
-    [Greg M. Krsak]: https://github.com/gregkrsak
-    [PyCharm]: https://www.jetbrains.com/pycharm/
-    [Linux Mint]: https://linuxmint.com/
-    [the issues page]: https://github.com/gregkrsak/nutroll/issues
