@@ -10,6 +10,9 @@
 #   praw (Try the command "pip install praw"):
 #   https://github.com/praw-dev/praw
 #
+#   A registered OAuth2 "personal use script" application on Reddit
+#   https://www.reddit.com/prefs/apps
+#
 # nutroll was originally written by Greg M. Krsak (greg@scrappypunk.com) and may
 # be abandoned, disabled or deleted without notice to you.
 #
