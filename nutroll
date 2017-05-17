@@ -16,6 +16,10 @@
 #   A registered OAuth2 "personal use script" application on Reddit
 #   https://www.reddit.com/prefs/apps
 #
+# Developed using PyCharm Community 2017.1 on Linux Mint 18.1. Please submit bugs
+# to https://github.com/gregkrsak/nutroll/issues and feel free to contribute
+# pull requests.
+#
 # nutroll was originally written by Greg M. Krsak (greg@scrappypunk.com) and may
 # be abandoned, disabled or deleted without notice to you.
 #
@@ -57,40 +61,19 @@ __version = 1
 
 def main(username):
     """
-    This is the main code block of the nutroll program.    
+    This is the primary, high-level code block of the nutroll program.    
     :return: None
     """
     # Perform some due dilligence that a username was provided
     if not username:
         usage()
         return
-    # Establish a connection to Reddit
-    reddit = connection_on_behalf_of(username)
-    # Get the top posts on r/TheBrewery for this past week
-    top_thebrewery_posts = reddit.subreddit('TheBrewery').top('week')
     # Warn the user that this could take a while
     print("Scanning for nut rolls (this may take several seconds)...")
-    # Read through each post to determine if there are any discussions of nut rolls
-    at_least_one_nutroll_found = False
-    try:
-        for submission_id in top_thebrewery_posts:
-            # Build a PRAW Submission object using the submission_id
-            submission = reddit.submission(id=submission_id)
-            # Build a full URL for the associated post, as well
-            full_post_url = "https://www.reddit.com/comments/{0}".format(submission_id)
-            # Get rid of the "load more comments", etc. links
-            submission.comments.replace_more(limit=0)
-            # Scan the comments for "nut roll" or "nutroll"...
-            for top_level_comment in submission.comments:
-                if nutroll_found_in(top_level_comment.body):
-                    print("Nut roll detected: {0}".format(full_post_url))
-                    at_least_one_nutroll_found = True
-        # If there were no nut roll discussions, display a simple announcement
-        if not at_least_one_nutroll_found:
-            print('No nut rolls this week.')
-    except:
-        # Did something break while trying to connect to Reddit?
-        print("Unable to reach Reddit. Did you setup your credentials properly?")
+    # Establish a connection to Reddit
+    reddit = connection_on_behalf_of(username)
+    # Perform a search for nut rolls
+    search(reddit)
     # Exit
     return
 
@@ -114,6 +97,38 @@ def nutroll_found_in(text):
     :return: True or False
     """
     return (text.find('nutroll') != -1) or (text.find('nut roll') != -1)
+
+
+def search(usingPraw):
+    """
+    This is the primary worker function for this application. It is called by the main
+    function, and scans Reddit for nut rolls.
+    :param usingPraw: Reddit 
+    :return: None 
+    """
+    # Get the top posts on r/TheBrewery for this past week
+    top_thebrewery_posts = usingPraw.subreddit('TheBrewery').top('week')
+    at_least_one_nutroll_found = False
+    # Read through each post to determine if there are any discussions of nut rolls
+    try:
+        for submission_id in top_thebrewery_posts:
+            # Build a PRAW Submission object using the submission_id
+            submission = usingPraw.submission(id=submission_id)
+            # Build a full URL for the associated post, as well
+            full_post_url = "https://www.reddit.com/comments/{0}".format(submission_id)
+            # Get rid of the "load more comments", etc. links
+            submission.comments.replace_more(limit=0)
+            # Scan the comments for "nut roll" or "nutroll"...
+            for top_level_comment in submission.comments:
+                if nutroll_found_in(top_level_comment.body):
+                    print("Nut roll detected: {0}".format(full_post_url))
+                    at_least_one_nutroll_found = True
+        # If there were no nut roll discussions, display a simple announcement
+        if not at_least_one_nutroll_found:
+            print('No nut rolls this week.')
+    except:
+        # Did something break while trying to connect to Reddit?
+        print("Unable to reach Reddit. Did you setup your credentials properly?")
 
 
 def usage():
@@ -140,3 +155,4 @@ if __name__ == '__main__':
     except:
         pass
     main(argv)
+# End of nutroll
