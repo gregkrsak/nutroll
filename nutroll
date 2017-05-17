@@ -65,7 +65,10 @@ def main(username):
     reddit = connection_on_behalf_of(username)
     # Get the top posts on r/TheBrewery for this past week
     top_thebrewery_posts = reddit.subreddit('TheBrewery').top('week')
+    # Warn the user that this could take a while
+    print("Scanning for nut rolls (this may take several seconds)...")
     # Read through each post to determine if there are any discussions of nut rolls
+    at_least_one_nutroll_found = False
     for submission_id in top_thebrewery_posts:
         # Build a PRAW Submission object using the submission_id
         submission = reddit.submission(id=submission_id)
@@ -77,6 +80,10 @@ def main(username):
         for top_level_comment in submission.comments:
             if nutroll_found_in(top_level_comment.body):
                 print("Nut roll detected: {0}".format(full_post_url))
+                at_least_one_nutroll_found = True
+    # If there were no nut roll discussions, display a simple announcement
+    if not at_least_one_nutroll_found:
+        print('No nut rolls this week.')
 
 
 def connection_on_behalf_of(username):
