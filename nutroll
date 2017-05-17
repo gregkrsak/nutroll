@@ -1,0 +1,121 @@
+#!/usr/bin/env python3
+#
+# nutroll
+#
+# A simple example of the Python Reddit API Wrapper (PRAW) via OAuth2.
+#
+# Requires:
+#
+#   praw (Try the command "pip install praw"):
+#   https://github.com/praw-dev/praw
+#
+# nutroll was originally written by Greg M. Krsak (greg@scrappypunk.com) and may
+# be abandoned, disabled or deleted without notice to you.
+#
+# Additionally, you are authorized to use this software *ONLY* within the terms
+# of Reddit's API rules, found here: https://github.com/reddit/reddit/wiki/API
+#
+# Otherwise, you may use this software in accordance with the MIT License:
+#
+# Copyright (c) 2017 Greg M. Krsak
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+
+# Required for using PRAW
+import praw
+# Required for using command line parameters
+import sys
+
+
+# Internally sets the version of the nutroll application
+__version = 1
+
+
+def main(username):
+    """
+    This is the main code block of the nutroll program.    
+    :return: None
+    """
+    # Perform some due dilligence that a username was provided
+    if not username:
+        usage()
+        return
+    # Establish a connection to Reddit
+    reddit = connection_on_behalf_of(username)
+    # Get the top posts on r/TheBrewery for this past week
+    top_thebrewery_posts = reddit.subreddit('TheBrewery').top('week')
+    # Read through each post to determine if there are any discussions of nut rolls
+    for submission_id in top_thebrewery_posts:
+        # Build a PRAW Submission object using the submission_id
+        submission = reddit.submission(id=submission_id)
+        # Build a full URL for the associated post, as well
+        full_post_url = "https://www.reddit.com/comments/{0}".format(submission_id)
+        # Get rid of the "load more comments", etc. links
+        submission.comments.replace_more(limit=0)
+        # Scan the comments for "nut roll" or "nutroll"...
+        for top_level_comment in submission.comments:
+            if nutroll_found_in(top_level_comment.body):
+                print("Nut roll detected: {0}".format(full_post_url))
+
+
+def connection_on_behalf_of(username):
+    """
+    Establishes a PRAW connection.    
+    :return: Reddit
+    """
+    return praw.Reddit(
+        client_id='mHJAei1MCbztxw',
+        client_secret='G74uVCX9K5MnyBcNhDFwpwqVZtY',
+        user_agent="python:nutroll:v{0} (used by {1})".format(__version, username),
+    )
+
+
+def nutroll_found_in(text):
+    """
+    Searches the provided string for "nutroll" or "nut roll".
+    :return: True or False
+    """
+    return (text.find('nutroll') != -1) or (text.find('nut roll') != -1)
+
+
+def usage():
+    """
+    Displays usage information.    
+    :return: None
+    """
+    print('nutroll, a demonstration of the PRAW library (https://github.com/praw-dev/praw)')
+    print('Copyright (c) 2017 Greg M. Krsak (greg@scrappypunk.com)')
+    print('Provided under the MIT License: http://opensource.org/licenses/MIT')
+    print()
+    print('Usage: nutroll <username>')
+    print()
+    print('Where <username> is your Reddit username.')
+    print('Please file bugs here: https://github.com/gregkrsak/nutroll/issues')
+    print()
+    print('USE RESTRICTED BY REDDIT API RULES: https://github.com/reddit/reddit/wiki/API')
+
+
+if __name__ == '__main__':
+    argv = ''
+    try:
+        argv = sys.argv[1]
+    except:
+        pass
+    main(argv)
