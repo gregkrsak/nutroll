@@ -123,6 +123,8 @@ def search(usingPraw):
                 if nutroll_found_in(top_level_comment.body):
                     print("Nut roll detected: {0}".format(full_post_url))
                     at_least_one_nutroll_found = True
+                    # Avoid duplicate results
+                    break
         # If there were no nut roll discussions, display a simple announcement
         if not at_least_one_nutroll_found:
             print('No nut rolls this week.')
