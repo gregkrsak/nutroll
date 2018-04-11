@@ -1,6 +1,10 @@
 nutroll
 =======
 
+
+[![Python](https://img.shields.io/badge/language-python-blue.svg)](https://github.com/gregkrsak/nutroll/blob/master/nutroll)
+
+
 This is a sample Python-language application intended to demonstrate connecting to Reddit via the [PRAW] library.
 
 What you'll need to to start
